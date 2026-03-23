@@ -1,18 +1,65 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { ActionButton } from "../components/ActionButton";
+import { FocusButton } from "../components/FokusButton";
+
+const pomodoro = [
+  {
+    id: "foco",
+    initialValue: "25",
+    image: require("./foco.png"),
+    display: "Foco",
+  },
+  {
+    id: "short",
+    initialValue: "5",
+    image: require("./short.png"),
+    display: "Pausa curta",
+  },
+  {
+    id: "long",
+    initialValue: "15",
+    image: require("./long.png"),
+    display: "Pausa longa",
+  },
+];
 
 export default function Index() {
+  const [timerType, setTimerType] = useState(pomodoro[0]);
+
   return (
     <View style={styles.container}>
       <Image
         style={styles.banner}
-        source={require("./pomodoro.png")}
+        source={timerType.image}
         resizeMode="contain"
       />
       <View style={styles.actions}>
-        <Text style={styles.timer}>25:00</Text>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Começar</Text>
-        </Pressable>
+        <View style={styles.context}>
+          {pomodoro.map((p) => (
+            <ActionButton
+              key={p.id}
+              active={timerType.id === p.id}
+              onPress={() => setTimerType(p)}
+              display={p.display}
+            />
+            /*
+            <Pressable
+              
+             
+              o
+            >
+              <
+            </Pressable>*/
+          ))}
+        </View>
+        <Text style={styles.timer}>
+          {new Date(timerType.initialValue * 1000).toLocaleTimeString("pt-BR", {
+            minute: "2-digit",
+            second: "2-digit",
+          })}
+        </Text>
+        <FocusButton />
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>
@@ -31,6 +78,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#021123",
     gap: 40,
+    paddingBottom: 24,
   },
 
   banner: {
@@ -48,23 +96,17 @@ const styles = StyleSheet.create({
     gap: 24,
   },
 
+  context: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+
   timer: {
     fontSize: 54,
     fontWeight: "bold",
     color: "#fff",
     textAlign: "center",
-  },
-
-  button: {
-    borderRadius: 32,
-    padding: 8,
-    backgroundColor: "#b872ff",
-  },
-
-  buttonText: {
-    textAlign: "center",
-    color: "#021123",
-    fontSize: 18,
   },
 
   footer: {
