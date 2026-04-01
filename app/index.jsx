@@ -1,65 +1,21 @@
-import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { ActionButton } from "../components/ActionButton";
-import { FocusButton } from "../components/FokusButton";
-
-const pomodoro = [
-  {
-    id: "foco",
-    initialValue: "25",
-    image: require("./foco.png"),
-    display: "Foco",
-  },
-  {
-    id: "short",
-    initialValue: "5",
-    image: require("./short.png"),
-    display: "Pausa curta",
-  },
-  {
-    id: "long",
-    initialValue: "15",
-    image: require("./long.png"),
-    display: "Pausa longa",
-  },
-];
+import { FokusButton } from "../components/FokusButton";
 
 export default function Index() {
-  const [timerType, setTimerType] = useState(pomodoro[0]);
-
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.banner}
-        source={timerType.image}
-        resizeMode="contain"
-      />
-      <View style={styles.actions}>
-        <View style={styles.context}>
-          {pomodoro.map((p) => (
-            <ActionButton
-              key={p.id}
-              active={timerType.id === p.id}
-              onPress={() => setTimerType(p)}
-              display={p.display}
-            />
-            /*
-            <Pressable
-              
-             
-              o
-            >
-              <
-            </Pressable>*/
-          ))}
-        </View>
-        <Text style={styles.timer}>
-          {new Date(timerType.initialValue * 1000).toLocaleTimeString("pt-BR", {
-            minute: "2-digit",
-            second: "2-digit",
-          })}
+      <Image source={require("../assets/images/logo.png")} />
+      <View style={styles.inner}>
+        <Text style={styles.title}>
+          Otimize sua {"\n"}
+          produtividade, {"\n"}
+          <Text style={styles.bold}>
+            mergulhe no que {"\n"}
+            importa
+          </Text>
         </Text>
-        <FocusButton />
+        <Image source={require("../assets/images/home.png")} />
+        <FokusButton title="Quero iniciar!" />
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>
@@ -78,35 +34,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#021123",
     gap: 40,
-    paddingBottom: 24,
   },
 
-  banner: {
-    width: "60%",
-    height: "50%",
+  inner: {
+    gap: 16,
   },
 
-  actions: {
-    padding: 24,
-    borderRadius: 32,
-    borderWidth: 2,
-    borderColor: "#144480",
-    backgroundColor: "#14448080",
-    width: "80%",
-    gap: 24,
-  },
-
-  context: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-
-  timer: {
-    fontSize: 54,
-    fontWeight: "bold",
-    color: "#fff",
+  title: {
+    color: "#ffffff",
+    fontSize: 24,
     textAlign: "center",
+  },
+
+  bold: {
+    fontWeight: "bold",
   },
 
   footer: {
